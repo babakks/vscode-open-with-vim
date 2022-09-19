@@ -22,8 +22,16 @@
         "vim",
         "nano",
         "open",
+        "open with",
+        "open in",
         "editor",
-        "terminal"
+        "terminal",
+        "open with vi",
+        "open with vim",
+        "open with nano",
+        "open in vi",
+        "open in vim",
+        "open in nano"
     ],
     "main": "./out/extension.js",
     "icon": "images/icon.png",
