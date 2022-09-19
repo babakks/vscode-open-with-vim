@@ -3,6 +3,7 @@
     "displayName": "Open with Vi/Vim/Nano",
     "description": "Open files with Vi/Vim/Nano, in the editor area",
     "version": "0.0.1",
+    "publisher": "babakks",
     "repository": {
         "type": "git",
         "url": "https://github.com/babakks/vscode-open-with-vim"
