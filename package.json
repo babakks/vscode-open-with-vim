@@ -1,7 +1,7 @@
 {
     "name": "vscode-open-with-vim",
     "displayName": "Open with Vi/Vim/Nano",
-    "description": "",
+    "description": "Open files with Vi/Vim/Nano, in the editor area",
     "version": "0.0.1",
     "repository": {
         "type": "git",
@@ -15,6 +15,14 @@
     ],
     "activationEvents": [
         "*"
+    ],
+    "keywords": [
+        "vi",
+        "vim",
+        "nano",
+        "open",
+        "editor",
+        "terminal"
     ],
     "main": "./out/extension.js",
     "icon": "images/icon.png",
