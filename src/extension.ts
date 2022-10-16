@@ -51,6 +51,7 @@ function openWith(editor: Editor, uri: vscode.Uri) {
         }
     }
 
+    const shellType = vscode.env.shell;
     const terminal = vscode.window.createTerminal({
         name: basename(uri.path),
         location: vscode.TerminalLocation.Editor,
@@ -64,13 +65,22 @@ function openWith(editor: Editor, uri: vscode.Uri) {
      * has done their job.
      */
     setTimeout(() => {
-        terminal.sendText(getOpenWithCommand(editor, uri.path));
+        terminal.sendText(getOpenWithCommand(editor, uri.path, shellType));
         terminal.show();
     }, SAFETY_TIMEOUT_MS);
 }
 
-function getOpenWithCommand(editor: Editor, path: string): string {
+function getOpenWithCommand(editor: Editor, path: string, shellType: string): string {
     const escapedPath = path;
+
+    if (shellType.match(/(pwsh|powershell|cmd)(\.exe)?/i)) {
+        switch (editor) {
+            case 'vi': return `vi '${escapedPath}'; exit`;
+            case 'vim': return `vim '${escapedPath}'; exit`;
+            case 'nano': return `nano '${escapedPath}'; exit`;
+        }
+    }
+
     switch (editor) {
         case 'vi': return `exec vi '${escapedPath}'; exec exit`;
         case 'vim': return `exec vim '${escapedPath}'; exec exit`;
