@@ -73,7 +73,7 @@ function openWith(editor: Editor, uri: vscode.Uri) {
 function getOpenWithCommand(editor: Editor, path: string, shellType: string): string {
     const escapedPath = path;
 
-    if (shellType.match('(pwsh|powershell|cmd)(\.exe)?')) {
+    if (shellType.match(/(pwsh|powershell|cmd)(\.exe)?/i)) {
         switch (editor) {
             case 'vi': return `vi '${escapedPath}'; exit`;
             case 'vim': return `vim '${escapedPath}'; exit`;
