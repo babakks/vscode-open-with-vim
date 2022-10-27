@@ -53,7 +53,7 @@ function openWith(editor: Editor, uri: vscode.Uri) {
 
     const shellType = vscode.env.shell;
     const terminal = vscode.window.createTerminal({
-        name: basename(uri.path),
+        name: basename(uri.fsPath),
         location: vscode.TerminalLocation.Editor,
     });
 
@@ -65,7 +65,7 @@ function openWith(editor: Editor, uri: vscode.Uri) {
      * has done their job.
      */
     setTimeout(() => {
-        terminal.sendText(getOpenWithCommand(editor, uri.path, shellType));
+        terminal.sendText(getOpenWithCommand(editor, uri.fsPath, shellType));
         terminal.show();
     }, SAFETY_TIMEOUT_MS);
 }
