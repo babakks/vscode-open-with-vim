@@ -3,9 +3,15 @@ import { basename } from 'node:path';
 
 export function activate(context: vscode.ExtensionContext) {
     let disposable = [
-        vscode.commands.registerCommand('vscode-open-with-vim.openWithVi', (uri: vscode.Uri) => { openWith('vi', uri); }),
-        vscode.commands.registerCommand('vscode-open-with-vim.openWithVim', (uri: vscode.Uri) => { openWith('vim', uri); }),
-        vscode.commands.registerCommand('vscode-open-with-vim.openWithNano', (uri: vscode.Uri) => { openWith('nano', uri); }),
+        vscode.commands.registerCommand('vscode-open-with-vim.openWithVi', async (uri: vscode.Uri | undefined) => {
+            openWith('vi', uri ?? await getCurrentSelectedFile());
+        }),
+        vscode.commands.registerCommand('vscode-open-with-vim.openWithVim', async (uri: vscode.Uri | undefined) => {
+            openWith('vim', uri ?? await getCurrentSelectedFile());
+        }),
+        vscode.commands.registerCommand('vscode-open-with-vim.openWithNano', async (uri: vscode.Uri | undefined) => {
+            openWith('nano', uri ?? await getCurrentSelectedFile());
+        }),
         vscode.window.onDidCloseTerminal(tryRemoveTerminalFromMap),
     ];
 
@@ -22,6 +28,20 @@ const pam = new Map<EditorUri, vscode.Terminal>();
 
 function toEditorUri(editor: Editor, uri: vscode.Uri): EditorUri {
     return `${editor}/${uri.toString()}`;
+}
+
+/**
+ * VS Code does not provide an API to retrieve the selected file in the explorer
+ * tree. The best effort to achieve this is using `copyFilePath` command and get
+ * the file path from the clipboard. This has been discussed here:
+ *   https://github.com/Microsoft/vscode/issues/3553#issuecomment-1098562676
+ */
+async function getCurrentSelectedFile(): Promise<vscode.Uri> {
+    const originalClipboard = await vscode.env.clipboard.readText();
+    await vscode.commands.executeCommand('copyFilePath');
+    const s = await vscode.env.clipboard.readText();
+    await vscode.env.clipboard.writeText(originalClipboard);
+    return vscode.Uri.file(s.split(/\r?\n/g)[0]);
 }
 
 /**

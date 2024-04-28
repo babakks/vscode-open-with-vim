@@ -6,6 +6,20 @@ Thanks to the [*Terminals in the editor area*][terminal-in-editor-area] feature,
 
 ![Open with Vi/Vim/Nano](/images/capture/navigation.gif)
 
+## Defining keyboard shortcuts
+
+You can assign a keyboard shortcut to open files in Vi/Vim/Nano. To do this add this line to VS Code's `keybindings.json` file:
+
+```json
+{
+    {
+        "key": "o",
+        "command": "vscode-open-with-vim.openWithVim",
+        "when": "explorerViewletFocus && foldersViewVisible && !inputFocus"
+    }
+}
+```
+
 ℹ️ *Please share your feedbacks/thoughts by opening an issue on the extension's Github [repository][repo].* 🍏
 
 [repo]: https://github.com/babakks/vscode-open-with-vim
